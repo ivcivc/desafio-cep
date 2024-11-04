@@ -55,27 +55,6 @@ go test -v
 ``` 
 
 
-## 🐳 Docker
-
-### Construir a imagem
-```
-docker build -t temperature-api .
-```
-
-### Executar o container    
-```
-docker run -p 8080:8080 temperature-api
-``` 
-
-
-## 🚀 Deploy no Google Cloud Run
-
-1. Build e push da imagem:
-```
-gcloud builds submit --tag gcr.io/temperature-api-396212/temperature-api
-```
-
-
 ## 🛠️ Tecnologias Utilizadas
 
 - [Go](https://golang.org/)
