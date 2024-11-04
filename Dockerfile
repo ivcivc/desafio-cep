@@ -1,9 +1,10 @@
-FROM golang:1.21-alpine
+FROM golang:1.21-alpine as builder
 
 WORKDIR /app
 COPY . .
-RUN go mod download
-RUN go build -o main
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main
 
-EXPOSE 8080
-CMD ["./main"] 
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/main .
+ENTRYPOINT ["./main"] 

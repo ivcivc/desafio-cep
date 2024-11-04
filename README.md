@@ -43,6 +43,9 @@ Retorna um JSON com a mensagem de erro:
 Retorna um JSON com a mensagem de erro:
 - `error`: invalid zipcode
 
+## 🧪 Acessar a API (Google Cloud Run)
+https://hello-275133257525.us-central1.run.app/?cep=
+
 
 ## 🧪 Testes
 

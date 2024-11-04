@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"crypto/tls"
 )
 
 type ViaCEPResponse struct {
@@ -25,6 +26,9 @@ type TemperatureResponse struct {
 }
 
 func main() {
+	// Desabilitar a verificação do certificado SSL
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
 	http.HandleFunc("/", handleCEP)
 	http.ListenAndServe(":8080", nil)
 }
@@ -100,29 +104,3 @@ func handleCEP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
 }
-
-
-/*
-1- build e push da imagem para o Google Container Registry
-
-gcloud builds submit --tag gcr.io/seu-projeto/cep-weather
-
-2 - Deploy no Cloud Run:
-gcloud run deploy cep-weather --image gcr.io/seu-projeto/cep-weather --platform managed	
-
-
-Este código:
-Valida o CEP usando regex
-Consulta o ViaCEP para obter a cidade
-Usa a cidade para consultar a temperatura atual via WeatherAPI
-Calcula as temperaturas nas três escalas solicitadas
-Retorna as respostas nos formatos especificados
-Trata os erros conforme solicitado
-Lembrar de:
-Tratar os erros adequadamente em produção
-Adicionar logs para monitoramento
-Configurar variáveis de ambiente para a chave API
-Adicionar testes unitários
-Implementar rate limiting se necessário
-
-*/
